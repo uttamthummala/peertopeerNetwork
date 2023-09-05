@@ -1,0 +1,49 @@
+-----------------------manager-----------------------------
+1. The manager maintains active peers addresses in the activepeer_addresses list
+2. when the manager gets a gets a new peer or a peer is removed, it updates the activepeer_addresses list and broadcasts the new list to all peers using the broadcast()
+   function using add_remove_peer function()
+3. The manager periodically checks the availability of peers using check_availability() function and updates the activepeer_addresses list accordingly and broadcasts the list periodically this happens in the printit() function
+
+-----------------------peer-----------------------------
+
+1. The peer maintains a list of active peers in the activepeer_addresses list
+2. The peer receives the activepeer_addresses list from the manager and updates its list accordingly and conn_maintain_server() is the function which maintains
+    the connection with the manager and responds to manager requests and updates the activepeer_addresses list
+3. When a peer enters the network it pings the manager and save the  activepeer_addresses list sent by the manager this also happens in conn_maintain_server()
+4.The peer also maintains the shareable files in the shareable_files list and the files it downloads will be automaticcaly added to the shareable_files list and will be in the folder shareable
+and the other files we can add manually from program but we need to make sure it is in shareable folder
+5. request_file() function is responsible for requesting a file from the all active peers and the making the list of peers which has the file in available_peers list
+   and request_file_offset() is responsible for requesting a  particular fragment file from a particular peer
+
+6. request_file() is also responsible for combining the parallely downloaded fragments and rerequesting the missing fragments from the available peers and combining the 
+ fragments and writing it to a file
+
+7.respond()  function is responsible for responding to the requests from the other peers and sending the required fragments 
+
+8. if the peer wants to leave the network it sends a leave request to the manager and the manager removes the peer from the activepeer_addresses list and broadcasts the new list to all peers
+   it's done in the main function.
+
+-------------------------------------------------------usage------------------------------------------------------------
+
+1. To run the program first run the manager.py file (python3 200010052_manager.py)
+
+2. To run the peer.py file (python3 200010052_peer.py)
+
+The peer file file will ask for  option to select 
+
+                1. To request a files
+                2. To add a file to the shareable_files
+                3. To leave the network
+
+    To request a file select 1 and enter the file name and the peer will request the file from the active peers and download the file if its available
+    To add the file to the shareable_files select 2 and enter the file name and the peer will add the file to the shareable_files list if the file is present in the shareable directory if a file is downloaded it will be automatically added to the shareable_files list
+    To leave the network select 3 and the peer will send a leave request to the manager and the manager will remove the peer from the activepeer_addresses list and broadcast the new list to all peers
+
+if your task is to share files then create a  directory named shareable and put the files you want to share in the shareable directory and then add them to the shareable_files list using the 2nd option 
+
+
+-----------------------------------------------------------demo---------------------------------------------------------
+for demo i created a seperate folder for another peer because generally peers will be at different locations and as here if they are in same folder it write to the same file shared by other 
+peers then we cant show working in demo
+
+demo link : https://drive.google.com/file/d/1G1ixuZCQrx-Y29CqQ02Ms1MJQmZj8P8M/view?usp=sharing
